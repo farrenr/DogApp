@@ -1,10 +1,15 @@
 import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getBreeds } from "./DogService";
 
-interface Props {
-  breeds: Breed[];
-}
+function DogList() {
+  const [breeds, setDogBreeds] = useState([] as Breed[]);
 
-function DogList({ breeds }: Props) {
+  useEffect(() => {
+    const breedsResponse = getBreeds();
+    breedsResponse.then((breedsResult) => setDogBreeds(breedsResult));
+  }, []);
+
   return (
     <Grid>
       <List>
