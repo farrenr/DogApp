@@ -24,7 +24,7 @@ function DogList({ breedCount }: Props) {
   }, []);
 
   const [page, setPage] = useState(1);
-  const handleChange = (event, value: number) => {
+  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     const breedsResponse = getBreedsByPage(pageSize, value - 1);
     breedsResponse.then((breedsResult) => setDogBreeds(breedsResult));
     setPage(value);
