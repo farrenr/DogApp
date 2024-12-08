@@ -1,19 +1,10 @@
-import { useEffect, useState } from "react";
-import { getBreedsCount } from "./components/DogService";
 import DogList from "./components/DogList";
+import "./App.css";
 
 function App() {
-  const [breedsCount, setBreedsCount] = useState(0);
-
-  useEffect(() => {
-    getBreedsCount().then((result) => {
-      setBreedsCount(result);
-    });
-  }, []);
-
   return (
     <>
-      <DogList breedCount={breedsCount}></DogList>
+      <DogList></DogList>
     </>
   );
 }

@@ -1,49 +1,46 @@
 import { useEffect, useState } from "react";
 import { getBreedsByPage } from "./DogService";
-import {
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Pagination,
-} from "@mui/material";
+import { Divider } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import DogCard from "./DogCard";
 
-interface Props {
-  breedCount: number;
-}
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  ...theme.applyStyles("dark", {
+    backgroundColor: "#1A2027",
+  }),
+}));
 
-function DogList({ breedCount }: Props) {
+function DogList() {
   const pageSize = 10;
-  const numPages = Math.ceil(breedCount / pageSize);
   const [breeds, setDogBreeds] = useState([] as Breed[]);
 
   useEffect(() => {
-    const breedsResponse = getBreedsByPage(pageSize);
-    breedsResponse.then((breedsResult) => setDogBreeds(breedsResult));
+    const breedsResponse = getBreedsByPage(pageSize, 0);
+    breedsResponse.then((breedResult) => setDogBreeds(breedResult));
   }, []);
 
-  const [page, setPage] = useState(1);
-  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-    const breedsResponse = getBreedsByPage(pageSize, value - 1);
-    breedsResponse.then((breedsResult) => setDogBreeds(breedsResult));
-    setPage(value);
-  };
-
   return (
-    <Grid>
-      <List>
-        {breeds.length === 0 && "No breeds to show"}
-        {breeds.map((breed) => (
-          <>
-            <ListItem key={breed.id}>
-              <ListItemText primary={breed.name} />
-            </ListItem>
+    <Grid container spacing={4}>
+      {breeds.length === 0 && "No breeds to show"}
+      {breeds.map((breed) => (
+        <Grid key={breed.id} size={3}>
+          <Item>
+            <DogCard
+              id={breed.id}
+              name={breed.name}
+              image_ref={breed.reference_image_id}
+            />
             <Divider component="li" />
-          </>
-        ))}
-      </List>
-      <Pagination count={numPages} page={page} onChange={handleChange} />
+          </Item>
+        </Grid>
+      ))}
     </Grid>
   );
 }

@@ -1,0 +1,8 @@
+.dogCardPic {
+  overflow: hidden;
+}
+
+.dogCardPic img {
+  height: 100%;
+  width: 100%;
+}
